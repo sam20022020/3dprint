@@ -48,7 +48,7 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    if st.button("Generate Lithophane STL"):
+    if st.button("Generate Lithophane STL, Santosh Dharamsale"):
         with st.spinner("Generating STL..."):
             litho_mesh = image_to_lithophane(image, max_thick, min_thick, scale_factor)
             tmpdir = tempfile.gettempdir()
