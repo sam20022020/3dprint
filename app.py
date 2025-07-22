@@ -37,7 +37,7 @@ def image_to_lithophane(image, max_thickness=4.0, min_thickness=0.8, scale=0.5):
             litho_mesh.vectors[i][j] = vertices[f[j], :]
     return litho_mesh
 
-st.title('Image to Lithophane STL Converter')
+st.title('Image to Lithophane STL Converter By Santosh Dharamsale')
 
 uploaded_file = st.file_uploader("Upload an Image (JPG, PNG)", type=["jpg", "jpeg", "png"])
 max_thick = st.slider("Maximum Thickness (mm)", 2.0, 8.0, 4.0)
@@ -48,7 +48,7 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    if st.button("Generate Lithophane STL, Santosh Dharamsale"):
+    if st.button("Generate Lithophane STL"):
         with st.spinner("Generating STL..."):
             litho_mesh = image_to_lithophane(image, max_thick, min_thick, scale_factor)
             tmpdir = tempfile.gettempdir()
