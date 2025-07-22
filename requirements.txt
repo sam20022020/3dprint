@@ -1,1 +1,6 @@
-pip install streamlit numpy opencv-python scikit-image numpy-stl pillow
+streamlit
+numpy
+opencv-python
+scikit-image
+numpy-stl
+pillow
