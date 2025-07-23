@@ -46,13 +46,30 @@ scale_factor = st.slider("Scale (for faster processing, lower = smaller image)",
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
-    width, height = image.size  # Get image size
-    st.image(image, caption="Uploaded Image", use_column_width=True)
-    st.write(f"**Image size:** {width} x {height} pixels")  # Display size
+    width, height = image.size
+    st.write(f"**Original Image size:** {width} x {height} pixels")
 
+    # Aspect Ratio Lock Checkbox
+    aspect_lock = st.checkbox("Lock Aspect Ratio", value=True)
+
+    # Width adjustment
+    new_width = st.slider("New Width (px)", 32, width, width)
+    if aspect_lock:
+        aspect_ratio = height / width
+        new_height = int(new_width * aspect_ratio)
+        st.write(f"New Height (auto): {new_height} pixels")
+    else:
+        new_height = st.slider("New Height (px)", 32, height, height)
+
+    # Resize for preview/use
+    resized_image = image.resize((new_width, new_height))
+    st.image(resized_image, caption="Resized Image", use_container_width=True)
+    st.write(f"**Resized Image size:** {new_width} x {new_height} pixels")
+
+    # Use resized image for further processing
     if st.button("Generate Lithophane STL"):
         with st.spinner("Generating STL..."):
-            litho_mesh = image_to_lithophane(image, max_thick, min_thick, scale_factor)
+            litho_mesh = image_to_lithophane(resized_image, max_thick, min_thick, scale_factor)
             tmpdir = tempfile.gettempdir()
             stl_path = os.path.join(tmpdir, "lithophane.stl")
             litho_mesh.save(stl_path)
@@ -66,6 +83,6 @@ if uploaded_file is not None:
         st.success("STL file is ready for download.")
 
 st.markdown("""
-- Adjust thickness and scale to fit your 3D printing preferences.
-- Best results are achieved with clear, high-contrast images.
+- Adjust thickness, scale, and image size to suit your 3D printing preferences.
+- For best results, upload clear, high-contrast images.
 """)
