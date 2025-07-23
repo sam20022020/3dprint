@@ -46,7 +46,9 @@ scale_factor = st.slider("Scale (for faster processing, lower = smaller image)",
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
+    width, height = image.size  # Get image size
     st.image(image, caption="Uploaded Image", use_column_width=True)
+    st.write(f"**Image size:** {width} x {height} pixels")  # Display size
 
     if st.button("Generate Lithophane STL"):
         with st.spinner("Generating STL..."):
